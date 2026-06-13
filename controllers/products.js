@@ -1,12 +1,13 @@
 const getAllProductsStatic = async (req, res) => {
-    res.status(200).json({msg: 'all static products'})
-}
+//   throw new Error("testing async errors");
+  res.status(200).json({ msg: "all static products" });
+};
 
-const getAllProducts = async(req, res) => {
-    res.status(200).json({msg: 'all products'})
-}
+const getAllProducts = async (req, res) => {
+  res.status(200).json({ msg: "all products" });
+};
 
-module.exports ={
-    getAllProducts,
-    getAllProductsStatic
-}
+module.exports = {
+  getAllProducts,
+  getAllProductsStatic,
+};
