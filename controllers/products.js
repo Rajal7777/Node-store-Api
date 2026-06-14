@@ -28,8 +28,16 @@ const getAllProducts = async (req, res) => {
   if( name ) {
     queryObject.name =  { $regex: name, $options: 'i'}
   }
-  console.log(queryObject);
-  const products = await Product.find(queryObject);
+
+let result = Product.find(queryObject);
+if(sort){
+  const sortList = sort.split(',').join(' ')
+  result = sort(sortList)
+}else{
+  result = result.sort('createAt')
+}
+
+  const products = await result;
   res.status(200).json({ products,nbHits: products.length  });
 };
 
