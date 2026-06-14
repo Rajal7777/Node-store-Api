@@ -10,8 +10,10 @@ const start = async () => {
     await connectDB(process.env.MONGO_URI);
     await Products.create(jsonProducts)
     console.log("successful");
+    process.exit(0)
   } catch (error) {
     console.log(error);
+    process.exit(1)
   }
 };
 
