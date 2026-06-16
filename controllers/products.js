@@ -12,7 +12,7 @@ const getAllProductsStatic = async (req, res) => {
 const getAllProducts = async (req, res) => {
   // console.log(req.query)
 
-  const { featured, company, name, sort, fields } = req.query;
+  const { featured, company, name, sort, fields, numericFilters } = req.query;
   const queryObject = {};
 
   if (featured) {
@@ -25,6 +25,45 @@ const getAllProducts = async (req, res) => {
 
   if (name) {
     queryObject.name = { $regex: name, $options: "i" };
+  }
+
+  if (numericFilters) {
+    const operatorMap = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+    // This regex looks for comparison operators:
+    //g means find all occurance, not just the first one.
+
+    /*
+        suppose
+      //numericFilters = "price>40,rating>=4"
+      fist match -> match = ">=" then operatormap[">="] returns '$gte' becomes -$gte
+      //after replacement
+      filters = "price-$gt40,rating-$gte4"
+      */
+
+    const regEx = /\b(<|>|>=|=|<|<=)\b/g;
+
+    let filters = numericFilters.replace(
+      regEx,
+      (match) => `-${operatorMap[match]}-`,
+    );
+    console.log("filter1", filters); //"price-$gt-40,rating-$gte-4"
+
+    const options = ["price", "rating"];
+    filters = filters.split(",").forEach((item) => {
+      //after split -> ["price-$gt-40","rating-$gte-4"]
+      const [field, operator, value] = item.split("-"); //1st iteration item = "price-$gt-40" ->["price", "$gt", "40"]  field = 'price' operator ='$gt' value= '40
+      if (options.includes(field)) {
+        //if includes price | rating then returns true
+        queryObject[field] = { [operator]: Number(value) };
+      }
+    });
+    console.log("queryobj", queryObject); //{price: {&gtr: 40}, rating: {&gte: 4}}
   }
 
   let result = Product.find(queryObject);
@@ -46,7 +85,7 @@ const getAllProducts = async (req, res) => {
   //pagination
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;  //This formula determines how many records should be ignored before returning results.
+  const skip = (page - 1) * limit; //This formula determines how many records should be ignored before returning results.
 
   //skip = (2 - 1) * 10 = 10
 
