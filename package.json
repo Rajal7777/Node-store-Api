@@ -3,7 +3,7 @@
     "start": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rajal Suwal",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

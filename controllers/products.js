@@ -22,7 +22,8 @@ const getAllProducts = async (req, res) => {
   if (company) {
     queryObject.company = company;
   }
-
+ //if  /products?name=iphone
+  //$regex tells monogdb to searches for "iphone" inside the name field.
   if (name) {
     queryObject.name = { $regex: name, $options: "i" };
   }
@@ -57,6 +58,7 @@ const getAllProducts = async (req, res) => {
     const options = ["price", "rating"];
     filters = filters.split(",").forEach((item) => {
       //after split -> ["price-$gt-40","rating-$gte-4"]
+      
       const [field, operator, value] = item.split("-"); //1st iteration item = "price-$gt-40" ->["price", "$gt", "40"]  field = 'price' operator ='$gt' value= '40
       if (options.includes(field)) {
         //if includes price | rating then returns true

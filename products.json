@@ -3,7 +3,8 @@
     "name": "accent chair",
     "price": 25,
     "company": "marcos",
-    "rating": 4
+    "rating": 4,
+     "featured": true
   },
   {
     "name": "albany sectional",
@@ -38,7 +39,8 @@
   {
     "name": "emperor bed",
     "price": 23,
-    "company": "ikea"
+    "company": "ikea",
+    "rating" : 5
   },
   {
     "name": "entertainment center",
@@ -56,7 +58,8 @@
   {
     "name": "leather sofa",
     "price": 99,
-    "company": "caressa"
+    "company": "caressa",
+    "rating" : 5
   },
   {
     "name": "modern bookshelf",
@@ -67,7 +70,8 @@
   {
     "name": "modern poster",
     "price": 30,
-    "company": "liddy"
+    "company": "liddy",
+    "rating" : 5
   },
   {
     "name": "shelf",
@@ -126,6 +130,7 @@
     "name": "a first wooden table",
     "price": 23,
     "featured": true,
-    "company": "caressa"
+    "company": "caressa",
+    "rating" : 5
   }
 ]
